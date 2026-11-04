@@ -6,6 +6,7 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
 model historico_imovel {
   id               String     @id @db.Uuid @default(uuid())
   descricao        String
@@ -93,8 +94,8 @@ model usuarios {
   nome      String    @db.VarChar(50)
   email     String    @unique @db.VarChar(50)
   senha     String    @db.VarChar(255)
-  n_veis_id String    @map("níveis_id") @db.Uuid
+  niveis_id  String    @map("niveis_id") @db.Uuid
   createdAt DateTime  @default(now()) @db.Timestamp(6)
   updatedAt DateTime? @default(now()) @db.Timestamp(6)
-  niveis    niveis    @relation(fields: [n_veis_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "usuarios_niveis_fk")
+  niveis    niveis    @relation(fields: [niveis_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "usuarios_niveis_fk")
 }

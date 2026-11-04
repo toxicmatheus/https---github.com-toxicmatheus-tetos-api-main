@@ -15,23 +15,18 @@ async function buscar(req, res){
 async function criar(req, res){
     try {
         const { nome } = req.body;
-        const sql = await PRISMA.imoveis_tipo.create({
-            data: { 
+
+        await PRISMA.imoveis_tipo.create({
+            data: {
                 nome
             }
         });
-
-        if(sql){
-            res.json({
-                type: "success",
-                description: "Registro criado com sucesso"
-            })
-        }else{
-            res.json({
-                type: "warning",
-                description: "Falha ao criar registro"
-            })
-        }
+        
+        res.json({
+            type: "success",
+            description: "Registro criado com sucesso."
+        })
+        
     } catch (error) {
         res.json({
             type: "error",
@@ -42,9 +37,9 @@ async function criar(req, res){
 
 async function editar(req, res){
     try {
-        const {id} = req.params
-        const nome = req.body;
-         
+        const { nome } = req.body;
+        const { id } = req.params;
+        
         await PRISMA.imoveis_tipo.update({
             where: {
                 id
@@ -53,18 +48,12 @@ async function editar(req, res){
                 nome
             }
         });
-
-        if(resposta){
-            res.json({
-                type: "success",
-                description: "Registro atualizado com sucesso"
-            })
-        }else{
-            res.json({
-                type: "warning",
-                description: "Falha ao atualizar registro"
-            })
-        }
+        
+        res.json({
+            type: "success",
+            description: "Registro atualizado com sucesso."
+        })
+        
     } catch (error) {
         res.json({
             type: "error",
@@ -75,27 +64,26 @@ async function editar(req, res){
 
 async function deletar(req, res){
     try {
-        const {id} = req.params
-
+        const { id } = req.params;
+        
         await PRISMA.imoveis_tipo.delete({
             where: {
                 id
             }
         });
-
+        
         res.json({
             type: "success",
-            description: "Registro deletado com sucesso"
-        });
+            description: "Registro deletado com sucesso."
+        })
+        
     } catch (error) {
         res.json({
             type: "error",
-            description: error.message
+            description: error.message 
         });
     }
 }
-
-
 
 module.exports = {
     buscar,

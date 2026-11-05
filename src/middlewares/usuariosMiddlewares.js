@@ -4,13 +4,24 @@ function usuarioAutenticado(req, res, next) {
     let authorization = req.headers.authorization;
     if (!authorization) {
         res.status(401).json({
-            type: "error",
-            description: "Token não informado."
+            type: "warning",
+            description: "Token é necessário"
         });
         return;
     }
+
     let token = authorization.split(" ")[1];
-    next();
+
+    jwt.verify(token, process.env.SEGREDO, (error) => {
+        if (error) {
+            res.status(401).json({
+                type: "warning",
+                description: "Token inválido"
+            })
+        }
+
+        next();
+    });
 }
 
 module.exports = {

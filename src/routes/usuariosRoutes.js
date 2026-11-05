@@ -1,8 +1,8 @@
 const { buscar, criar, editar, deletar } = require("../controllers/usuariosController.js");
-const { usuarioAutenticado } = require("../middlewares/usuariosMiddlewares.js");
+
 const rotas = require("express").Router();
 
-rotas.get("/",usuarioAutenticado, buscar);
+rotas.get("/", buscar);
 rotas.post("/", criar);
 rotas.put("/:id", editar);
 rotas.delete("/:id", deletar);

@@ -6,11 +6,14 @@ async function buscar(req, res){
     try {
         const linhas = await PRISMA.usuarios.findMany({
             include: {
-                niveis: {
+                nivel: {
                     select: {
                         nome: true
                     }
                 }
+            },
+            omit: {
+                senha: true
             }
         });
         res.json(linhas);
@@ -24,8 +27,8 @@ async function buscar(req, res){
 
 async function criar(req, res){
     try {
-        let { nome, email, senha, niveis_id } = req.body;
-        
+        let { nome, email, senha, nivel_id } = req.body;
+
         senha = await bcrypt.hash(senha, 10);
 
         await PRISMA.usuarios.create({
@@ -33,7 +36,7 @@ async function criar(req, res){
                 nome,
                 email,
                 senha,
-                niveis_id
+                nivel_id
             }
         });
         
@@ -64,7 +67,7 @@ async function editar(req, res){
                 id
             },
             data: dados
-            });
+        });
         
         res.json({
             type: "success",
@@ -101,47 +104,53 @@ async function deletar(req, res){
         });
     }
 }
-    async function login(req, res){
-        try {
-            const { email, senha } = req.body;
-            let usuario = await PRISMA.usuarios.findFirst({
-                where: {
-                    email
-                }
-            });
-            
-            if(!usuario){
-                res.json({
-                    type: "warning",
-                    description: "Email ou senha não encontrado."
-                });
-                return;
-            }
-            let senhaValida = await bcrypt.compare(senha, usuario.senha);
 
-            if(!senhaValida){
-                res.json({
-                    type: "warning",
-                    description: "Email ou senha não encontrado."
-                });
-                return;
+async function login(req, res){
+    try {
+        const { email, senha } = req.body;
+
+        let usuario = await PRISMA.usuarios.findFirst({
+            where: {
+                email
             }
-            delete usuario.senha;
-            
-            let token = jwt.sign({id: usuario.id }, process.env.SEGREDO, { expiresIn: "1h" });
+        });
+
+        if(!usuario){
             res.json({
-                type: "success",
-                description: "Login realizado com sucesso.",
-                usuario,
-                token
-            });
-        }catch (error) {
-            res.json({
-                type: "error",
-                description: error.message
-            });
+                type: "warning",
+                description: "Email ou senha incorretos"
+            })
+            return;
         }
+
+        let senhaValida = await bcrypt.compare(senha, usuario.senha);
+
+        if(!senhaValida){
+            res.json({
+                type: "warning",
+                description: "Email ou senha incorretos"
+            })
+            return;
+        }
+
+        delete usuario.senha;
+
+        let token = await jwt.sign({id: usuario.id}, process.env.SEGREDO, { expiresIn: "1h" })
+
+        res.json({
+            type: "success",
+            description: "Login realizado com sucesso",
+            usuario,
+            token
+        });
+
+    } catch (error) {
+        res.json({
+            type: "error",
+            description: error.message 
+        });
     }
+}
 
 module.exports = {
     buscar,

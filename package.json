@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "npx nodemon app.js"
+    "dev": "npx nodemon app.js",
+    "swagger": "node ./src/docs/swagger.js"
   },
   "repository": {
     "type": "git",
@@ -27,7 +28,9 @@
     "jsonwebtoken": "^9.0.3",
     "multer": "^2.5.0",
     "nodemon": "^3.1.14",
-    "pg": "^8.23.1"
+    "pg": "^8.23.1",
+    "swagger-autogen": "^2.23.7",
+    "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
     "dotenv": "^18.0.9",

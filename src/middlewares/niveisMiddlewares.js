@@ -9,7 +9,7 @@ function validarDados(req, res, next){
     }
 
     next();
-}
+}   
 
 module.exports = {
     validarDados

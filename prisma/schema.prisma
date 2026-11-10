@@ -31,7 +31,7 @@ model historico_manutencoes {
   imovel_id String    @db.Uuid
   createdAt DateTime  @default(now()) @db.Timestamp(6)
   updatedAt DateTime? @default(now()) @db.Timestamp(6)
-  imoveis   imoveis   @relation(fields: [imovel_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "historico_manutecao_imovel_fk")
+  imoveis   imoveis   @relation(fields: [imovel_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "historico_manutencoes_imovel_fk")
 }
 
 model imoveis {
@@ -58,7 +58,7 @@ model imoveis {
   logradouro          String                  @db.VarChar(50)
   imagem              String?                 @db.VarChar(255)
   historico_imovel    historico_imovel[]
-  historico_manutecao historico_manutencoes[]
+  historico_manutencoes historico_manutencoes[]
   locatarios          locatarios?             @relation(fields: [locatario_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "imoveis_locatario_fk")
   imoveis_tipo        imoveis_tipo            @relation(fields: [tipo_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "imoveis_tipo_fk")
 }

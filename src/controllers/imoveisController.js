@@ -16,6 +16,7 @@ async function buscar(req, res){
         if (req.query.locatario === "true") {
             includeObj.locatarios = true;
         }
+        
         if (req.query.tipo === "true") {
             includeObj.imoveis_tipo = true;
         }

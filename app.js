@@ -42,6 +42,7 @@ app.use("/historico-manutencoes", usuarioAutenticado, historicoManutencaoRoutes)
 app.use("/historico-imoveis", usuarioAutenticado, historicoImoveisRoutes);
 app.use("/usuarios", usuarioAutenticado, usuariosRoutes);
 
-app.listen(3000, () => {
-    console.log("Servidor on: http://localhost:3000");
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log("Servidor on: http://localhost:" + PORT);
 });

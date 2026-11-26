@@ -6,7 +6,7 @@ async function buscar(req, res){
     try {
         const linhas = await PRISMA.usuarios.findMany({
             include: {
-                niveis: {
+                nivel: {
                     select: {
                         nome: true
                     }
